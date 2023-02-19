@@ -87,13 +87,10 @@ class HomeScreenBody extends StatelessWidget {
                 onTap: () async {
                   log(index.toString());
                   if (index == 0) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            NavigationScreen(25.39242, 68.37366)));
 
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(builder: (context) =>  CurrentLocationScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>  CurrentLocationScreen()));
                   } else if (index == 1) {
                     await getAvailableDelivery();
                     Navigator.push(

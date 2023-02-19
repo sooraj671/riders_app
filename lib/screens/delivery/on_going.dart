@@ -1,10 +1,12 @@
 import 'package:riders_app/api/CompletedDelivery.dart';
 import 'package:riders_app/api/OrdersService.dart';
 import 'package:riders_app/api/api_methods.dart';
+import 'package:riders_app/api/location.dart';
 import 'package:riders_app/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:riders_app/models/delievery_model.dart';
+import 'package:riders_app/screens/find_route/navigation_screen.dart';
 
 import '../../components/coustom_bottom_nav_bar.dart';
 import '../../enums.dart';
@@ -159,36 +161,31 @@ class _OnGoingDeliveriesState extends State<OnGoingDeliveries> {
                                       SizedBox(width: 50,),
                                       InkWell(
                                         onTap: () async {
-                                          // if (await acceptDelivery(data.id.toString())) {
+
+                                          if (button_text == "Complete") {
+                                            if (await deliverToTailor(
+                                                ongoingdDeliveries[0].id)) {
+                                              showPopUp(
+                                                  "Delivered to Tailor");
+
+                                            }
+                                            setState(() {
+                                              // completedDeliveries.add(ongoingdDeliveries[index] as CompletedDelivery);
+
+                                              ongoingdDeliveries.clear();
+                                            });
+                                          } else {
+                                            setState(() {
+                                              showPopUp("Picked from Customer");
+                                              button_text = "Complete";
+
+                                              Navigator.of(context).push(MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      NavigationScreen(latitude, longitude)));
 
 
-
-                                              if(button_text == "Complete"){
-                                                if( await deliverToTailor(data.id)){
-                                                  showPopUp("Delivered to Tailor");
-                                                  setState(() {
-
-                                                    // completedDeliveries.add(ongoingdDeliveries[index] as CompletedDelivery);
-                                                    ongoingdDeliveries.removeAt(index);
-
-                                                  });
-
-                                                }
-
-
-                                              }else{
-                                                setState(() {
-                                                  showPopUp("Delivered to Customer");
-                                                  button_text = "Complete";
-
-                                                });
-
-                                              }
-                                              // ongoingdDeliveries.add(availableDeliveries[index]);
-                                              // availableDeliveries.removeAt(index);
-
-
-                                          // }
+                                            });
+                                          }
                                         },
 
                                         child: Container(

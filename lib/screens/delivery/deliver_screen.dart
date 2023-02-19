@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:riders_app/api/OrdersService.dart';
 import 'package:riders_app/api/api_methods.dart';
+import 'package:riders_app/api/location.dart';
 import 'package:riders_app/constants.dart';
 import 'package:riders_app/screens/chats/components/appBar_build.dart';
+import 'package:riders_app/screens/find_route/navigation_screen.dart';
 
 import '../../models/delievery_model.dart';
 
@@ -167,6 +169,11 @@ class _DeliverScreenState extends State<DeliverScreen> {
                                             ongoingdDeliveries.add(availableDeliveries[index]);
                                             availableDeliveries.removeAt(index);
                                             showPopUp("Delivery Accepted");
+
+                                            Navigator.of(context).push(MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NavigationScreen(latitude, longitude)));
+
                                           });
                                         }
                                       },

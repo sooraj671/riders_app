@@ -1,3 +1,4 @@
+import 'package:riders_app/api/location.dart';
 import 'package:riders_app/screens/home/components/home_screen_body.dart';
 import 'package:riders_app/screens/nearby/nearby_tailors.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar("Set Location"),
+      appBar: buildAppBar("Pick Location"),
       body: GoogleMap(
         initialCameraPosition: initialCameraPosition,
         markers: markers,
@@ -43,8 +44,8 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Stack(fit: StackFit.expand, children: [
         Positioned(
-          left: 30,
           bottom: 20,
+          right: 30,
           child: FloatingActionButton(
             heroTag: 'up',
             onPressed: () async {
@@ -57,34 +58,23 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
 
               markers.clear();
 
-              markers.add(Marker(
+             await markers.add(Marker(
                   markerId: const MarkerId('currentLocation'),
                   position: LatLng(position.latitude, position.longitude)));
 
-              setState(() {});
+              setState(() {
+                longitude = position.longitude;
+                latitude = position.latitude;
+                showPopUp("Location is Picked");
+              });
+              
+
             },
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const Text("Pick"),
-          ),
-        ),
-        Positioned(
-          bottom: 20,
-          right: 30,
-          child: FloatingActionButton(
-            heroTag: 'next',
-            onPressed: () async {
-              // if (await getNearByTailors()) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
-              // }
-            },
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text("Go"),
-          ),
+            child: Icon(Icons.location_on_outlined)),
+
         ),
         // Add more floating buttons if you want
         // There is no limit
