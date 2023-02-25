@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:riders_app/api/OrdersService.dart';
 import 'package:riders_app/api/api_methods.dart';
+import 'package:riders_app/api/deliveries.dart';
+import 'package:riders_app/api/location.dart';
 import 'package:riders_app/constants.dart';
 import 'package:riders_app/screens/delivery/completed_delivery.dart';
 import 'package:riders_app/screens/delivery/deliver_screen.dart';
@@ -13,7 +15,7 @@ import 'package:riders_app/screens/nearby/components/current_location_screen.dar
 import 'package:riders_app/screens/sign_in/sign_in_screen.dart';
 
 import '../../../models/home_model.dart';
-import '../../orders/manage_sales.dart';
+
 
 class HomeScreenBody extends StatelessWidget {
   HomeScreenBody({super.key});
@@ -92,29 +94,53 @@ class HomeScreenBody extends StatelessWidget {
                         context,
                         MaterialPageRoute(builder: (context) =>  CurrentLocationScreen()));
                   } else if (index == 1) {
-                    await getAvailableDelivery();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DeliverScreen()));
+                    if(locationPicked){
+                      await getAvailableDelivery();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DeliverScreen()));
+                    }else{
+                      showPopUp("Please pick location first");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>  CurrentLocationScreen()));
+                    }
+
                   } else if (index == 2) {
+                    showPopUp("Please wait....");
                     await getOngoingDelivery();
 
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => OnGoingDeliveries()));
+                    if(ongoingdDeliveries.length>0){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OnGoingDeliveries()));
+                    }else{
+                      showPopUp("No ongoing deliveries yet");
+                    }
                   } else if (index == 3) {
+                    showPopUp("Please wait....");
                     await getCompletedDelivery();
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => CompletedDeliveries()));
                   } else if (index == 4) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EarningsPage()));
+                    showPopUp("Please wait....");
+                    // totalEarning =  0;
+                    // completedDeliveries.forEach((element) {
+                    //   totalEarning += double.parse(element.order.price.toString());
+                    // });
+                    if(await getEarning() && await getCompletedDeliveryInfo()){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EarningsPage()));
+                    }else{
+                      showPopUp("Please earn first");
+                    }
+
                   } else {
                     Navigator.push(
                         context,

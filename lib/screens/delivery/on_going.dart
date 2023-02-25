@@ -17,6 +17,8 @@ class OnGoingDeliveries extends StatefulWidget {
 }
 
 class _OnGoingDeliveriesState extends State<OnGoingDeliveries> {
+  String button_text = "";
+
   @override
   void initState() {
     super.initState();
@@ -37,8 +39,6 @@ class _OnGoingDeliveriesState extends State<OnGoingDeliveries> {
     )
   ];
 
-  String button_text = "Reached";
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -46,9 +46,10 @@ class _OnGoingDeliveriesState extends State<OnGoingDeliveries> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 1.0,
-          title: Text("On Going Delivery",
-            style: TextStyle(color: kPrimaryColor),),
-
+          title: Text(
+            "On Going Delivery",
+            style: TextStyle(color: kPrimaryColor),
+          ),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -59,14 +60,16 @@ class _OnGoingDeliveriesState extends State<OnGoingDeliveries> {
                 Column(
                   children: [
                     ...List.generate(
-                      ongoingdDeliveries.length,
-                          (index) {
+                      1,
+                      (index) {
                         final data = ongoingdDeliveries[index];
+                        button_text =
+                            data.towardsCustomer ? "To Customer" : "To Tailor";
                         return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Container(
                             height: 130,
-                            width: 350,
+                            width: 370,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(15),
@@ -86,7 +89,7 @@ class _OnGoingDeliveriesState extends State<OnGoingDeliveries> {
                               ],
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(7),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -95,7 +98,7 @@ class _OnGoingDeliveriesState extends State<OnGoingDeliveries> {
                                     children: [
                                       Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             data.orderStatus,
@@ -105,7 +108,6 @@ class _OnGoingDeliveriesState extends State<OnGoingDeliveries> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-
                                         ],
                                       ),
                                     ],
@@ -121,21 +123,14 @@ class _OnGoingDeliveriesState extends State<OnGoingDeliveries> {
                                       ),
                                       Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            data.description,
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
+
                                           const SizedBox(
                                             height: 3,
                                           ),
                                           Text(
-                                            "Pick Up: "+data.pickUpLocation,
+                                            "Click button to view map",
                                             style: const TextStyle(
                                               color: Colors.grey,
                                               fontSize: 16,
@@ -146,55 +141,60 @@ class _OnGoingDeliveriesState extends State<OnGoingDeliveries> {
                                             height: 3,
                                           ),
                                           Text(
-                                            "Drop Off: "+data.dropUpLocation,
+                                            "For Pick Up & Drop Off",
                                             style: const TextStyle(
                                               color: Colors.grey,
                                               fontSize: 16,
                                               fontWeight: FontWeight.normal,
                                             ),
                                           ),
-
-
-
                                         ],
                                       ),
-                                      SizedBox(width: 50,),
+                                      SizedBox(
+                                        width: 50,
+                                      ),
                                       InkWell(
                                         onTap: () async {
-
-                                          if (button_text == "Complete") {
+                                          if (button_text == "To Tailor") {
                                             if (await deliverToTailor(
                                                 ongoingdDeliveries[0].id)) {
-                                              showPopUp(
-                                                  "Delivered to Tailor");
-
+                                              setState(() {
+                                                ongoingdDeliveries.clear();
+                                                button_text =  "Completed";
+                                              });
                                             }
-                                            setState(() {
-                                              // completedDeliveries.add(ongoingdDeliveries[index] as CompletedDelivery);
 
-                                              ongoingdDeliveries.clear();
-                                            });
-                                          } else {
-                                            setState(() {
-                                              showPopUp("Picked from Customer");
-                                              button_text = "Complete";
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NavigationScreen(
+                                                            latitude,
+                                                            longitude)));
+                                          }
 
-                                              Navigator.of(context).push(MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      NavigationScreen(latitude, longitude)));
+                                          if (button_text == "To Customer") {
+                                            if (await deliverToCustomer(
+                                                ongoingdDeliveries[0].id)) {
+                                              setState(() {
+                                                ongoingdDeliveries.clear();
+                                              });
+                                            }
 
-
-                                            });
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NavigationScreen(
+                                                            latitude,
+                                                            longitude)));
                                           }
                                         },
-
                                         child: Container(
                                           height: 40,
                                           width: 100,
                                           decoration: BoxDecoration(
                                             color: kPrimaryColor,
                                             borderRadius:
-                                            BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                           ),
                                           child: Center(
                                             child: Text(
@@ -208,7 +208,6 @@ class _OnGoingDeliveriesState extends State<OnGoingDeliveries> {
                                           ),
                                         ),
                                       ),
-
                                     ],
                                   ),
                                 ],

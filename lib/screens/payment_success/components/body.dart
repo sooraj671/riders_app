@@ -1,17 +1,19 @@
-import 'package:riders_app/api/payment.dart';
-import 'package:riders_app/screens/order_success/order_success_screen.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:riders_app/components/default_button.dart';
+import 'package:riders_app/api/deliveries.dart';
 import 'package:riders_app/screens/home/home_screen.dart';
-import 'package:riders_app/size_config.dart';
+import 'package:riders_app/screens/order_success/order_success_screen.dart';
 
 import '../../../api/ProductList.dart';
 import '../../../api/api_methods.dart';
+import '../../../api/payment.dart';
 import '../../../api/payment_gateway.dart';
 import '../../../api/shopping_cart.dart';
 import '../../../components/custom_surfix_icon.dart';
 import '../../../constants.dart';
 import '../../../helper/keyboard.dart';
+import '../../../size_config.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -23,10 +25,12 @@ class _BodyState extends State<Body> {
 
   final List<String?> errors = [];
 
+  bool isLoading = false;
+
   TextFormField buildPhoneNumberFormField() {
     return TextFormField(
       keyboardType: TextInputType.phone,
-      onSaved: (newValue) => accountNumber = newValue.toString() ,
+      onSaved: (newValue) => accountNumber = newValue.toString(),
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPhoneNumberNullError);
@@ -78,7 +82,7 @@ class _BodyState extends State<Body> {
             height: SizeConfig.screenHeight * 0.4, //40%
           ),
           Text(
-            "Pay with Jazzcash",
+            "Withdraw with Jazzcash",
             style: TextStyle(
               fontSize: getProportionateScreenWidth(30),
               fontWeight: FontWeight.bold,
@@ -88,26 +92,55 @@ class _BodyState extends State<Body> {
           SizedBox(height: SizeConfig.screenHeight * 0.04),
           buildPhoneNumberFormField(),
           SizedBox(height: SizeConfig.screenHeight * 0.04),
-          SizedBox(
-            width: SizeConfig.screenWidth * 0.4,
-            child: DefaultButton(
-              text: "Pay",
-              press: () async {
-                KeyboardUtil.hideKeyboard(context);
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                  acc_num = accountNumber.toString();
-                  amount = total_amount.toString();
-                  if (await payment()) {
-                    Navigator.pushNamed(context, OrderSuccessScreen.routeName);
-                  }
-                }
-              },
+          InkWell(
+            onTap: () {
+              setState(() {
+                isLoading = true;
+              });
+              KeyboardUtil.hideKeyboard(context);
+              pay();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: kPrimaryColor,
+              ),
+              height: 50,
+              width: 200,
+              child: Center(
+                child: isLoading
+                    ? const CircularProgressIndicator()
+                    : Text(
+                        "Withdraw",
+                        style: headingStyle.copyWith(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
+                      ),
+              ),
             ),
           ),
           Spacer(),
         ],
       ),
     );
+  }
+
+  pay() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      acc_num = accountNumber.toString();
+      amount = total_amount.toString();
+
+      if (await payment() && await withDrawRequest()) {
+        setState(() {
+          isLoading = false;
+        });
+
+        Navigator.pushNamed(context, HomeScreen.routeName);
+        showPopUp("Withdraw Completed");
+      }
+    }
   }
 }

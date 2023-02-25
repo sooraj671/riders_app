@@ -20,16 +20,8 @@ class _BodyState extends State<Body> {
   int currentPage = 0;
   List<Map<String, String>> splashData = [
     {
-      "text": "Let's stitch and buy cultural dresses!",
+      "text": "Welcome to our rider platform",
       "image": "assets/images/splash_1.png"
-    },
-    {
-      "text": "We help people get and offer stitching \nservices from home",
-      "image": "assets/images/splash_2.png"
-    },
-    {
-      "text": "We empower women and skilled transgenders. \nTo make earnings",
-      "image": "assets/images/splash_3.png"
     },
   ];
   @override
@@ -40,14 +32,14 @@ class _BodyState extends State<Body> {
         child: Column(
           children: <Widget>[
             Expanded(
-              flex: 3,
+              flex: 4,
               child: PageView.builder(
                 onPageChanged: (value) {
                   setState(() {
                     currentPage = value;
                   });
                 },
-                itemCount: splashData.length,
+                itemCount: 1,
                 itemBuilder: (context, index) => SplashContent(
                   image: splashData[index]["image"],
                   text: splashData[index]['text'],
@@ -61,14 +53,7 @@ class _BodyState extends State<Body> {
                     horizontal: getProportionateScreenWidth(20)),
                 child: Column(
                   children: <Widget>[
-                    Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        splashData.length,
-                        (index) => buildDot(index: index),
-                      ),
-                    ),
+
                     Spacer(flex: 3),
                     DefaultButton(
                       text: "Continue",

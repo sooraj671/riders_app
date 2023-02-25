@@ -2,7 +2,7 @@ import 'package:riders_app/components/primary_button.dart';
 import 'package:riders_app/constants.dart';
 import 'package:flutter/material.dart';
 
-import '../chats/chats_screen.dart';
+
 
 class SigninOrSignupScreen extends StatelessWidget {
   const SigninOrSignupScreen({super.key});
@@ -26,7 +26,7 @@ class SigninOrSignupScreen extends StatelessWidget {
           PrimaryButton(
             text: 'Sign In',
             press: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatsScreen()));
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => const ChatsScreen()));
             },
           ),
           const SizedBox(height: kDefaultPadding * 1.5),

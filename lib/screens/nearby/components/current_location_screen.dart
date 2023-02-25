@@ -1,6 +1,6 @@
 import 'package:riders_app/api/location.dart';
 import 'package:riders_app/screens/home/components/home_screen_body.dart';
-import 'package:riders_app/screens/nearby/nearby_tailors.dart';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -65,9 +65,10 @@ class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
               setState(() {
                 longitude = position.longitude;
                 latitude = position.latitude;
+                locationPicked = true;
                 showPopUp("Location is Picked");
               });
-              
+
 
             },
             shape: RoundedRectangleBorder(

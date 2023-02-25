@@ -116,7 +116,8 @@ class _DeliverScreenState extends State<DeliverScreen> {
                                           height: 3,
                                         ),
                                         Text(
-                                          "Earning: 200 Pkr",
+
+                                          "Earning: "+(int.parse(data.price)*0.05).toString(),
                                           style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 16,
@@ -169,10 +170,6 @@ class _DeliverScreenState extends State<DeliverScreen> {
                                             ongoingdDeliveries.add(availableDeliveries[index]);
                                             availableDeliveries.removeAt(index);
                                             showPopUp("Delivery Accepted");
-
-                                            Navigator.of(context).push(MaterialPageRoute(
-                                                builder: (context) =>
-                                                    NavigationScreen(latitude, longitude)));
 
                                           });
                                         }

@@ -16,4 +16,7 @@ String completed_delivery = "/completed-deliveries";
 String progress_delivery = "/delivery-in-progress";
 String accept_delivery = "/accept-order/";
 String tailor_delivery = "/delivered-to-tailor/";
+String customer_delivery = "/delivered-to-customer/";
+String earning = "/earnings";
+String withdraw = "/withdraw-amount";
 

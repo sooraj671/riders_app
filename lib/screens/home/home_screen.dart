@@ -7,7 +7,7 @@ import 'package:riders_app/enums.dart';
 import 'package:riders_app/screens/home/components/home_screen_body.dart';
 import 'package:riders_app/screens/profile/customer_profile.dart';
 
-import 'components/body.dart';
+
 
 class HomeScreen extends StatelessWidget {
   static String routeName = "/home";

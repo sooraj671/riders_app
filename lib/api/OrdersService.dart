@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:riders_app/api/CompletedDelivery.dart';
 import 'package:riders_app/api/Delivery.dart';
 import 'package:riders_app/api/api_methods.dart';
+import 'package:riders_app/api/deliveries.dart';
 import 'package:riders_app/api/products.dart';
 import 'package:riders_app/api/token.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,10 @@ List<Delivery> ongoingdDeliveries = [];
 String imgUri = "https://raw.githubusercontent.com/Amjad-Afridi/dressUp-backend/master/";
 
 Future<bool> getAvailableDelivery() async {
+
+  if(availableDeliveries.isNotEmpty){
+    availableDeliveries.clear();
+  }
 
   final Uri pendOrders = Uri.parse(baseURL + rider + available_orders);
 
@@ -61,7 +66,6 @@ Future<bool> getAvailableDelivery() async {
 
   });
 
-  log(availableDeliveries[0].id.toString());
 
 
   if(response.statusCode == 200){
@@ -78,6 +82,10 @@ Future<bool> getAvailableDelivery() async {
 
 
 Future<bool> getCompletedDelivery() async {
+
+  if(completedDeliveries.isNotEmpty){
+    completedDeliveries.clear();
+  }
 
   final Uri pendOrders = Uri.parse(baseURL + rider + completed_delivery);
 
@@ -112,6 +120,9 @@ Future<bool> getCompletedDelivery() async {
 
   });
 
+
+
+
   log(completedDeliveries.length.toString());
 
 
@@ -129,6 +140,9 @@ Future<bool> getCompletedDelivery() async {
 
 
 Future<bool> getOngoingDelivery() async {
+  if(ongoingdDeliveries.isNotEmpty){
+    ongoingdDeliveries.clear();
+  }
 
   final Uri pendOrders = Uri.parse(baseURL + rider + progress_delivery);
 
@@ -156,7 +170,10 @@ Future<bool> getOngoingDelivery() async {
     ongoingdDeliveries.add(Delivery.fromJson(entry));
 
 
+
   });
+
+
 
   log(ongoingdDeliveries.length.toString());
 
@@ -204,6 +221,35 @@ Future<bool> acceptDelivery(String id) async {
 Future<bool> deliverToTailor(String id) async {
 
   final Uri pendOrders = Uri.parse(baseURL + rider + tailor_delivery+ id);
+
+  log(pendOrders.toString());
+
+  var response = await http.put(pendOrders, headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': 'Bearer $my_token',
+  });
+
+
+  log(response.body.toString());
+
+
+
+  if(response.statusCode == 200){
+
+    return true;
+  }else{
+    showPopUp(response.body);
+    return false;
+  }
+
+
+}
+
+
+Future<bool> deliverToCustomer(String id) async {
+
+  final Uri pendOrders = Uri.parse(baseURL + rider + customer_delivery+ id);
 
   log(pendOrders.toString());
 

@@ -1,11 +1,12 @@
-import 'package:riders_app/api/shopping_cart.dart';
+
 import 'package:flutter/material.dart';
-import 'package:riders_app/components/default_button.dart';
 import 'package:riders_app/screens/home/home_screen.dart';
-import 'package:riders_app/size_config.dart';
+
 
 import '../../../api/ProductList.dart';
 import '../../../api/api_methods.dart';
+import '../../../components/default_button.dart';
+import '../../../size_config.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -30,11 +31,9 @@ class Body extends StatelessWidget {
         SizedBox(
           width: SizeConfig.screenWidth * 0.6,
           child: DefaultButton(
-            text: "Let's Shop More",
+            text: "Deliver More",
             press: ()  {
-                if(products_cart.isNotEmpty){
-                  products_cart.clear();
-                }
+
                 Navigator.pushNamed(context, HomeScreen.routeName);
 
             },

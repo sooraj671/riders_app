@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:riders_app/components/coustom_bottom_nav_bar.dart';
 import 'package:riders_app/enums.dart';
 
-import 'components/body.dart';
+
 
 class CustomerProfile extends StatelessWidget {
   static String routeName = "/profile";

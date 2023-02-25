@@ -11,6 +11,7 @@ class Delivery {
   late final String price;
   late final String measurementType;
   late final String description;
+  late final bool towardsCustomer;
 
   Delivery({
     required this.id,
@@ -24,6 +25,7 @@ class Delivery {
     required this.price,
     required this.measurementType,
     required this.description,
+    required this.towardsCustomer
   });
 
   Delivery.fromJson(Map<String, dynamic> json){
@@ -38,6 +40,7 @@ class Delivery {
     price = json['price'];
     measurementType = json['measurementType'];
     description = json['description'];
+    towardsCustomer = json['towardsCustomer'];
   }
 
   Map<String, dynamic> toJson() {

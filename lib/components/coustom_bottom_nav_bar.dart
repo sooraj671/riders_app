@@ -1,10 +1,10 @@
-import 'package:riders_app/screens/nearby/nearby_tailors.dart';
-import 'package:riders_app/screens/orders/manage_sales.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:riders_app/screens/home/home_screen.dart';
-import 'package:riders_app/screens/profile/profile_screen.dart';
-import 'package:riders_app/screens/chats/chats_screen.dart';
+
+
 
 import '../api/OrdersService.dart';
 import '../constants.dart';
@@ -99,12 +99,12 @@ class CustomBottomNavBar extends StatelessWidget {
               IconButton(
                 icon: SvgPicture.asset(
                   "assets/icons/User Icon.svg",
-                  color: MenuState.profile == selectedMenu
+                  color: MenuState.profile ==   selectedMenu
                       ? kPrimaryColor
                       : inActiveIconColor,
                 ),
-                onPressed: () =>
-                    Navigator.pushNamed(context, ProfileScreen.routeName),
+                onPressed: () {}
+                    // Navigator.pushNamed(context, ProfileScreen.routeName),
               ),
             ],
           )),

@@ -52,7 +52,7 @@ class _TailorServicesState extends State<TailorServices> {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
-          
+
           body: Column(
               children: [
                 Expanded(

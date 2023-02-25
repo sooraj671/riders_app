@@ -88,7 +88,7 @@ Future<bool> payment() async {
 
   log("response=>");
   log(response.body);
-  showPopUp(response.body);
+
 
   if(response.body.isNotEmpty){
     return true;

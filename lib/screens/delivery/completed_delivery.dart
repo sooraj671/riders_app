@@ -110,7 +110,7 @@ class _CompletedDeliveriesState extends State<CompletedDeliveries> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            data.order.description,
+                                            "Order Description",
                                             style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
@@ -121,7 +121,7 @@ class _CompletedDeliveriesState extends State<CompletedDeliveries> {
                                             height: 3,
                                           ),
                                           Text(
-                                            data.order.pickUpLocation,
+                                            "On Time",
                                             style: const TextStyle(
                                               color: Colors.black,                                              fontSize: 16,
                                               fontWeight: FontWeight.normal,
@@ -131,7 +131,7 @@ class _CompletedDeliveriesState extends State<CompletedDeliveries> {
                                             height: 3,
                                           ),
                                           Text(
-                                            data.order.dropUpLocation,
+                                            "Location: "+data.order.dropUpLocation,
                                             style: const TextStyle(
                                               color: Colors.black,                                              fontSize: 16,
                                               fontWeight: FontWeight.normal,
@@ -141,7 +141,7 @@ class _CompletedDeliveriesState extends State<CompletedDeliveries> {
                                             height: 3,
                                           ),
                                           Text(
-                                            "Earning: 200Pkr",
+                                            "Total Price: "+ data.order.price,
                                             style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
